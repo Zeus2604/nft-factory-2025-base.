@@ -1,0 +1,11 @@
+{
+  name: nft-factory,
+  version: 1.0.0,
+  main: index.js,
+  dependencies: {
+    hashlips-art-engine: ^1.6.9
+  },
+  scripts: {
+    start: node server.js
+  }
+}
