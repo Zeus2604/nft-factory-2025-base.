@@ -12,36 +12,39 @@
 
 <script>
 function generate(){
-    let count = 500;
-    let layers = [];
-
+    let count = 20; // cambiado a 20 para probar
     async function create(){
         for(let i = 0; i < count; i++){
-            layers.push(`background/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`);
-            layers.push(`fuego/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`);
-            layers.push(`texto/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`);
+            // Elegimos aleatoriamente una imagen por capa
+            const layers = [
+                `background/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`,
+                `fuego/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`,
+                `texto/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`
+            ];
 
-            const image = document.createElement('canvas');
-            image.width = 1024;
-            image.height = 1024;
-            const ctx = image.getContext('2d');
+            const canvas = document.createElement('canvas');
+            canvas.width = 1024;
+            canvas.height = 1024;
+            const ctx = canvas.getContext('2d');
 
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, 1024, 1024);
 
-            for(let l of layers){
-                let img = new Image();
+            for (let l of layers) {
+                const img = new Image();
                 img.src = l;
-                await new Promise(r => img.onload = r);
-                ctx.drawImage(img, 0, 0, 1024, 1024);
+                // si falla la carga, continuamos para no bloquear el loop
+                await new Promise(r => { img.onload = r; img.onerror = r; });
+                try { ctx.drawImage(img, 0, 0, 1024, 1024); } catch(e) { /* si la imagen no es válida, la ignoramos */ }
             }
 
-            let link = document.createElement('a');
-            link.href = image.toDataURL();
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
             link.download = `nft-${i+1}.png`;
             link.click();
 
-            layers = [];
+            // limpiar antes de la siguiente iteración (no estrictamente necesario aquí)
+            // await new Promise(r => setTimeout(r, 50)); // opcional: descomenta si el navegador bloquea descargas masivas
         }
     }
     create();
