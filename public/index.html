@@ -1,17 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>NFT Factory</title>
+  <title>NFT Factory by Almar55</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Genera hasta 500 NFTs gratis</h1>
-  <p>Este sitio es para dueños del NFT de Web3.9dcc.eth</p>
-  <button onclick="generate()">Generar</button>
+  <h1>Generate up to 500 NFTs for free</h1>
+  <p>This site is for owners of the NFT Halloween_Almar_PFP</p>
+  <button onclick="generate()">Generate NFTs</button>
 </body>
+
 <script>
-  function generate(){
-    alert('¡En proceso!'); // aquí pondremos el verdadero generador después
-  }
+function generate(){
+    let count = 500;
+    let layers = [];
+
+    async function create(){
+        for(let i = 0; i < count; i++){
+            layers.push(`background/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`);
+            layers.push(`fuego/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`);
+            layers.push(`texto/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`);
+
+            const image = document.createElement('canvas');
+            image.width = 1024;
+            image.height = 1024;
+            const ctx = image.getContext('2d');
+
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, 1024, 1024);
+
+            for(let l of layers){
+                let img = new Image();
+                img.src = l;
+                await new Promise(r => img.onload = r);
+                ctx.drawImage(img, 0, 0, 1024, 1024);
+            }
+
+            let link = document.createElement('a');
+            link.href = image.toDataURL();
+            link.download = `nft-${i+1}.png`;
+            link.click();
+
+            layers = [];
+        }
+    }
+    create();
+}
 </script>
 </html>
