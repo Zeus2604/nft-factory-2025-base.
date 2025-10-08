@@ -1,0 +1,19 @@
+{
+  "layersOrder": [
+    { "name": "Background", "trait": "fondo", "folder": "background" },
+    { "name": "Fuego", "trait": "fuego", "folder": "fuego" },
+    { "name": "Texto", "trait": "texto", "folder": "texto" }
+  ],
+  "format": {
+    "width": 1024,
+    "height": 1024
+  },
+  "background": {
+    "color": "#000"
+  },
+  "rarity": [
+    { "trait": "fondo", "item": "azul", "rarity": 20 },
+    { "trait": "fuego", "item": "rojo", "rarity": 80 },
+    { "trait": "texto", "item": "2025", "rarity": 100 }
+  ]
+}
