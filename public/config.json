@@ -1,12 +1,12 @@
 {
   "layersOrder": [
-    { "name": "Backgrounds", "folder": "BACKGROUNDS" },
-    { "name": "Bocas", "folder": "BOCAS" },
-    { "name": "Nariz", "folder": "NARIZ" },
-    { "name": "Ojos", "folder": "OJOS" },
-    { "name": "Rostros", "folder": "ROSTROS" },
-    { "name": "Sombreros", "folder": "SOMBREROS" },
-    { "name": "Texto", "folder": "TEXTO" }
+    { "name": "Backgrounds", "folder": "BACKGROUNDS", "fileSuffix": "BACKGROUND" },
+    { "name": "Bocas", "folder": "BOCAS", "fileSuffix": "BOCA" },
+    { "name": "Nariz", "folder": "NARIZ", "fileSuffix": "NARIZ" },
+    { "name": "Ojos", "folder": "OJOS", "fileSuffix": "OJOS" },
+    { "name": "Rostros", "folder": "ROSTROS", "fileSuffix": "ROSTRO" },
+    { "name": "Sombreros", "folder": "SOMBREROS", "fileSuffix": "SOMBRERO" },
+    { "name": "Texto", "folder": "TEXTO", "fileSuffix": "TEXTO" }
   ],
   "imagesPerLayer": 8,
   "format": {
