@@ -11,44 +11,44 @@
 </body>
 
 <script>
-function generate(){
-    let count = 20; // cambiado a 20 para probar
-    const imagesPerLayer = 8; // tenemos 8 imágenes por carpeta
+async function generate(){
+    const count = 20; // cantidad de NFTs a generar
+    const response = await fetch('config.json');
+    const config = await response.json();
 
     async function create(){
         for(let i = 0; i < count; i++){
-            // Elegimos aleatoriamente una imagen por capa
-            const layers = [
-                `BACKGROUNDS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
-                `BOCAS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
-                `NARIZ/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
-                `OJOS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
-                `ROSTROS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
-                `SOMBREROS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
-                `TEXTO/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`
-            ];
+            // Elegimos aleatoriamente una imagen por capa usando config.json
+            const layers = config.layersOrder.map(layer => {
+                const imgNumber = Math.floor(Math.random() * config.imagesPerLayer) + 1;
+                return `${layer.folder}/${imgNumber}.jpg`; // path dinámico
+            });
 
             const canvas = document.createElement('canvas');
-            canvas.width = 1024;
-            canvas.height = 1024;
+            canvas.width = config.format.width;
+            canvas.height = config.format.height;
             const ctx = canvas.getContext('2d');
 
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, 1024, 1024);
+            // color de fondo
+            ctx.fillStyle = config.background.color;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            // dibujar capas
             for (let l of layers) {
                 const img = new Image();
                 img.src = l;
                 await new Promise(r => { img.onload = r; img.onerror = r; });
-                try { ctx.drawImage(img, 0, 0, 1024, 1024); } catch(e) {}
+                try { ctx.drawImage(img, 0, 0, canvas.width, canvas.height); } catch(e) {}
             }
 
+            // descargar NFT
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/png');
             link.download = `nft-${i+1}.png`;
             link.click();
         }
     }
+
     create();
 }
 </script>
