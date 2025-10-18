@@ -13,7 +13,7 @@
 <script>
 async function generate(){
     const count = 20; // cantidad de NFTs a generar
-    const response = await fetch('config.json');
+   const response = await fetch('./config.json');
     const config = await response.json();
 
     async function create(){
