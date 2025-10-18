@@ -13,7 +13,7 @@
 <script>
 async function generate(){
     const count = 20; // cantidad de NFTs a generar
-   const response = await fetch('./config.json');
+    const response = await fetch('./config.json');
     const config = await response.json();
 
     async function create(){
@@ -21,7 +21,7 @@ async function generate(){
             // Elegimos aleatoriamente una imagen por capa usando config.json
             const layers = config.layersOrder.map(layer => {
                 const imgNumber = Math.floor(Math.random() * config.imagesPerLayer) + 1;
-                return `${layer.folder}/${imgNumber}.png`; // path dinámico
+                return `${layer.folder}/${imgNumber}${layer.name.toUpperCase()}.png`; // path dinámico
             });
 
             const canvas = document.createElement('canvas');
