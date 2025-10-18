@@ -13,13 +13,19 @@
 <script>
 function generate(){
     let count = 20; // cambiado a 20 para probar
+    const imagesPerLayer = 8; // tenemos 8 imágenes por carpeta
+
     async function create(){
         for(let i = 0; i < count; i++){
             // Elegimos aleatoriamente una imagen por capa
             const layers = [
-                `background/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`,
-                `fuego/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`,
-                `texto/${['1.jpg','2.jpg','3.jpg'][Math.floor(Math.random() * 3)]}`
+                `BACKGROUNDS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
+                `BOCAS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
+                `NARIZ/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
+                `OJOS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
+                `ROSTROS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
+                `SOMBREROS/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`,
+                `TEXTO/${Math.floor(Math.random() * imagesPerLayer) + 1}.jpg`
             ];
 
             const canvas = document.createElement('canvas');
@@ -33,18 +39,14 @@ function generate(){
             for (let l of layers) {
                 const img = new Image();
                 img.src = l;
-                // si falla la carga, continuamos para no bloquear el loop
                 await new Promise(r => { img.onload = r; img.onerror = r; });
-                try { ctx.drawImage(img, 0, 0, 1024, 1024); } catch(e) { /* si la imagen no es válida, la ignoramos */ }
+                try { ctx.drawImage(img, 0, 0, 1024, 1024); } catch(e) {}
             }
 
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/png');
             link.download = `nft-${i+1}.png`;
             link.click();
-
-            // limpiar antes de la siguiente iteración (no estrictamente necesario aquí)
-            // await new Promise(r => setTimeout(r, 50)); // opcional: descomenta si el navegador bloquea descargas masivas
         }
     }
     create();
