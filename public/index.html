@@ -21,7 +21,7 @@ async function generate(){
             // Elegimos aleatoriamente una imagen por capa usando config.json
             const layers = config.layersOrder.map(layer => {
                 const imgNumber = Math.floor(Math.random() * config.imagesPerLayer) + 1;
-                return `${layer.folder}/${imgNumber}${layer.name.toUpperCase()}.png`; // path dinámico
+                return `${layer.folder}/${imgNumber}${layer.fileSuffix}.png`; // path dinámico
             });
 
             const canvas = document.createElement('canvas');
