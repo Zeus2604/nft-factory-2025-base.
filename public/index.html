@@ -18,33 +18,37 @@ async function generate() {
 
     async function create() {
         for (let i = 0; i < count; i++) {
-
-            // Construir paths de capas en orden usando config.json
-            const layers = [];
-            for (let layer of config.layersOrder) {
+            // Elegimos aleatoriamente una imagen por capa usando config.json
+            const layers = config.layersOrder.map(layer => {
                 const imgNumber = Math.floor(Math.random() * config.imagesPerLayer) + 1;
-                layers.push(`${layer.folder}/${imgNumber}${layer.fileSuffix || ''}.png`);
-            }
+                // Construimos la ruta completa respetando tu naming: 1ROSTRO.png, 2ROSTRO.png...
+                return `${layer.folder}/${imgNumber}${layer.fileSuffix}.png`;
+            });
 
-            // Crear canvas
             const canvas = document.createElement('canvas');
             canvas.width = config.format.width;
             canvas.height = config.format.height;
             const ctx = canvas.getContext('2d');
 
-            // Fondo
+            // color de fondo
             ctx.fillStyle = config.background.color;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Dibujar capas en orden
+            // dibujar capas en orden
             for (let l of layers) {
                 const img = new Image();
                 img.src = l;
-                await new Promise(r => { img.onload = r; img.onerror = r; });
-                try { ctx.drawImage(img, 0, 0, canvas.width, canvas.height); } catch(e) {}
+                // Esperar a que cargue la imagen antes de dibujar
+                await new Promise(resolve => {
+                    img.onload = resolve;
+                    img.onerror = resolve; // para no bloquear si falla
+                });
+                try {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                } catch(e) {}
             }
 
-            // Descargar NFT
+            // descargar NFT
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/png');
             link.download = `nft-${i+1}.png`;
