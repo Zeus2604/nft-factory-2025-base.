@@ -1,19 +1,9 @@
-{
-  "layersOrder": [
-    { "name": "Backgrounds", "folder": "BACKGROUNDS", "fileSuffix": "BACKGROUND" },
-    { "name": "Bocas", "folder": "BOCAS", "fileSuffix": "BOCA" },
-    { "name": "Nariz", "folder": "NARIZ", "fileSuffix": "NARIZ" },
-    { "name": "Ojos", "folder": "OJOS", "fileSuffix": "OJOS" },
-    { "name": "Rostros", "folder": "ROSTROS", "fileSuffix": "ROSTRO" },
-    { "name": "Sombreros", "folder": "SOMBREROS", "fileSuffix": "SOMBRERO" },
-    { "name": "Texto", "folder": "TEXTO", "fileSuffix": "TEXTO" }
-  ],
-  "imagesPerLayer": 8,
-  "format": {
-    "width": 1024,
-    "height": 1024
-  },
-  "background": {
-    "color": "#000000"
-  }
-}
+"layersOrder": [
+  { "name": "Backgrounds", "folder": "BACKGROUNDS", "fileSuffix": "BACKGROUND" },
+  { "name": "Rostros", "folder": "ROSTROS", "fileSuffix": "ROSTRO" },
+  { "name": "Ojos", "folder": "OJOS", "fileSuffix": "OJOS" },
+  { "name": "Nariz", "folder": "NARIZ", "fileSuffix": "NARIZ" },
+  { "name": "Bocas", "folder": "BOCAS", "fileSuffix": "BOCA" },
+  { "name": "Sombreros", "folder": "SOMBREROS", "fileSuffix": "SOMBRERO" },
+  { "name": "Texto", "folder": "TEXTO", "fileSuffix": "TEXTO" }
+]
