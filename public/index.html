@@ -12,16 +12,16 @@
 
 <script>
 async function generate() {
-    const count = 20; // cantidad de NFTs a generar
+    const count = Math.min(500, 20); // Limita a 500, usa 20 para pruebas
     const response = await fetch('./config.json');
     const config = await response.json();
 
     async function create() {
         for (let i = 0; i < count; i++) {
-            // Elegimos aleatoriamente una imagen por capa usando config.json
+            // Generar rutas para cada capa
             const layers = config.layersOrder.map(layer => {
                 const imgNumber = Math.floor(Math.random() * config.imagesPerLayer) + 1;
-                // Construimos la ruta completa respetando tu naming: 1ROSTRO.png, 2ROSTRO.png...
+                // Ruta exacta: e.g., BACKGROUNDS/1BACKGROUND.png
                 return `${layer.folder}/${imgNumber}${layer.fileSuffix}.png`;
             });
 
@@ -30,25 +30,35 @@ async function generate() {
             canvas.height = config.format.height;
             const ctx = canvas.getContext('2d');
 
-            // color de fondo
+            // Fondo negro
             ctx.fillStyle = config.background.color;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // dibujar capas en orden
+            // Dibujar capas en orden
             for (let l of layers) {
+                console.log(`Intentando cargar: ${l}`); // Depurar rutas
                 const img = new Image();
                 img.src = l;
-                // Esperar a que cargue la imagen antes de dibujar
-                await new Promise(resolve => {
-                    img.onload = resolve;
-                    img.onerror = resolve; // para no bloquear si falla
-                });
+
+                // Esperar carga de imagen
                 try {
+                    await new Promise((resolve, reject) => {
+                        img.onload = () => {
+                            console.log(`Cargada: ${l}`);
+                            resolve();
+                        };
+                        img.onerror = () => {
+                            console.error(`Error al cargar: ${l}`);
+                            resolve(); // Continúa aunque falle
+                        };
+                    });
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                } catch(e) {}
+                } catch (e) {
+                    console.error(`Error al dibujar: ${l}`, e);
+                }
             }
 
-            // descargar NFT
+            // Descargar NFT
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/png');
             link.download = `nft-${i+1}.png`;
@@ -56,7 +66,7 @@ async function generate() {
         }
     }
 
-    create();
+    await create();
 }
 </script>
 </html>
