@@ -7,7 +7,7 @@
 <body>
   <h1>Generate up to 500 NFTs for free</h1>
   <p>This site is for owners of the NFT Halloween_Almar_PFP</p>
-  <button onclick="generate()">Generate NFTs</button>
+ <button id="generateBtn">Generate NFTs</button>
 </body>
 
 <script>
@@ -68,5 +68,6 @@ async function generate() {
 
     await create();
 }
+  document.getElementById('generateBtn').addEventListener('click', generate);
 </script>
 </html>
